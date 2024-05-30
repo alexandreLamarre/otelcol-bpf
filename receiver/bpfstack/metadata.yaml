@@ -1,0 +1,7 @@
+type: bpfstack
+
+status:
+  class: receiver
+  stability:
+    alpha: [metrics, logs, traces]
+  distributions: [core, contrib]

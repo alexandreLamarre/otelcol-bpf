@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug BPF stack receiver",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "asRoot": true,
+            "program": "${workspaceFolder}/receiver/bpfstack",
+            "env": {},
+            "buildFlags": "",
+            "showLog": true
+        }
+    ]
+}

@@ -2,15 +2,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug BPF stack receiver",
+            "name": "Debug eBPF OpenTelemetry Collector",
             "type": "go",
             "request": "launch",
-            "mode": "test",
+            "mode": "auto",
             "asRoot": true,
-            "program": "${workspaceFolder}/receiver/bpfstack",
+            "program": "${workspaceFolder}/otelcol/",
             "env": {},
             "buildFlags": "",
-            "showLog": true
+            "showLog": true,
+            "console": "integratedTerminal",
+            "args": [
+                "--config=${workspaceFolder}/otelcol/config.yaml",
+            ],
         }
     ]
 }

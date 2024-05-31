@@ -7,8 +7,10 @@ require (
 	github.com/cilium/ebpf v0.11.0
 	github.com/go-kit/kit v0.12.0
 	github.com/go-kit/log v0.2.1
+	github.com/google/pprof v0.0.0-20240227163752-401108e1b7e7
 	github.com/grafana/pyroscope/api v0.4.0
 	github.com/grafana/pyroscope/ebpf v0.4.7
+	github.com/klauspost/compress v1.17.7
 	github.com/prometheus/client_golang v1.19.1
 	github.com/prometheus/common v0.53.0
 	github.com/prometheus/prometheus v0.51.2
@@ -36,13 +38,11 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-viper/mapstructure/v2 v2.0.0-alpha.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/google/pprof v0.0.0-20240227163752-401108e1b7e7 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grafana/regexp v0.0.0-20221123153739-15dc172cd2db // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/ianlancetaylor/demangle v0.0.0-20230524184225-eabc099b10ab // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.17.7 // indirect
 	github.com/knadh/koanf/maps v0.1.1 // indirect
 	github.com/knadh/koanf/providers/confmap v0.1.0 // indirect
 	github.com/knadh/koanf/v2 v2.1.1 // indirect

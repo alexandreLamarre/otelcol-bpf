@@ -1,0 +1,23 @@
+dist:
+  module: github.com/alexandreLamarre/otelbpf/otelcolbpf 
+  name: otelcol-bpf
+  description: "BPF OpenTelemetry Collector distribution"
+  otelcol_version: "0.101.0"
+  version: "0.0.1"
+  output_path: ./
+
+receivers:
+  - gomod: github.com/alexandreLamarre/otelbpf/receiver/bpfstack v0.101.0
+processors:
+  - gomod: go.opentelemetry.io/collector/processor/batchprocessor v0.101.0
+extensions:
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension v0.101.0 
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension v0.101.0
+exporters:
+  - gomod: go.opentelemetry.io/collector/exporter/otlpexporter v0.101.0
+  - gomod: go.opentelemetry.io/collector/exporter/otlphttpexporter v0.101.0
+
+
+replaces:
+  - github.com/alexandreLamarre/otelbpf/receiver/bpfstack v0.101.0 => ../receiver/bpfstack
+  - github.com/alexandreLamarre/otelbpf v0.101.0 => ../

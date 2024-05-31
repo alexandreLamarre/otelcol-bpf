@@ -1,0 +1,27 @@
+receivers:
+  bpfstack:
+processors:
+  batch:
+exporters:
+  otlp/debug:
+    endpoint : 127.0.0.1:4317
+    compression: none
+    tls:
+      insecure: true
+  otlphttp/debug:
+    endpoint : http://127.0.0.1:4318
+    compression: none
+extensions:
+  pprof:
+  healthcheckv2:
+service:
+  extensions: [healthcheckv2, pprof]
+  pipelines:
+    metrics:
+      receivers: [bpfstack]
+      processors: [batch]
+      exporters: [otlphttp/debug]
+    logs:
+      receivers: [bpfstack]
+      processors: [batch]
+      exporters: [otlphttp/debug]

@@ -1,0 +1,1 @@
+Yanked from https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/internal/sharedcomponent

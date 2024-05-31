@@ -3,18 +3,17 @@ module github.com/alexandreLamarre/otelbpf/receiver/bpfstack
 go 1.22.3
 
 require (
+	github.com/alexandreLamarre/otelbpf v0.0.0-20240401170217-c3f982113cda
+	github.com/cilium/ebpf v0.15.0
 	github.com/stretchr/testify v1.9.0
 	go.opentelemetry.io/collector/component v0.101.0
 	go.opentelemetry.io/collector/confmap v0.101.0
 	go.opentelemetry.io/collector/consumer v0.101.0
 	go.opentelemetry.io/collector/receiver v0.101.0
 	go.uber.org/goleak v1.3.0
-	github.com/alexandreLamarre/otelbpf v0.0.0-20240401170217-c3f982113cda
 )
 
-replace (
-	github.com/alexandreLamarre/otelbpf => ../..
-)
+replace github.com/alexandreLamarre/otelbpf => ../..
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -48,6 +47,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.26.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
+	golang.org/x/exp v0.0.0-20230224173230-c95f2b4c22f2 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect

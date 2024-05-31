@@ -9,6 +9,11 @@ require (
 	go.opentelemetry.io/collector/consumer v0.101.0
 	go.opentelemetry.io/collector/receiver v0.101.0
 	go.uber.org/goleak v1.3.0
+	github.com/alexandreLamarre/otelbpf v0.0.0-20240401170217-c3f982113cda
+)
+
+replace (
+	github.com/alexandreLamarre/otelbpf => ../..
 )
 
 require (

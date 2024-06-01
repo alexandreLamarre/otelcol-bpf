@@ -6,6 +6,7 @@ go 1.22.3
 
 require (
 	github.com/alexandreLamarre/otelbpf/receiver/bpfstack v0.101.0
+	github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver v0.101.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension v0.101.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension v0.101.0
 	go.opentelemetry.io/collector/component v0.101.0
@@ -139,3 +140,5 @@ require (
 replace github.com/alexandreLamarre/otelbpf/receiver/bpfstack v0.101.0 => ../receiver/bpfstack
 
 replace github.com/alexandreLamarre/otelbpf v0.101.0 => ../
+
+replace github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver v0.101.0 => ../receiver/pprofreceiver

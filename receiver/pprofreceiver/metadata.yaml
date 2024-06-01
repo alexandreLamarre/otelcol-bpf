@@ -1,7 +1,7 @@
-type: bpfstack
+type: pprofreceiver
 
 status:
   class: receiver
   stability:
-    alpha: [metrics, logs, traces]
+    alpha: [logs]
   distributions: [bpf]

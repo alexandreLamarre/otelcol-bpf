@@ -2,6 +2,7 @@ package bpfstack
 
 import (
 	"context"
+	"time"
 
 	"github.com/alexandreLamarre/otelbpf/internal/sharedcomponent"
 	"github.com/alexandreLamarre/otelbpf/receiver/bpfstack/internal/metadata"
@@ -21,7 +22,10 @@ func NewFactory() receiver.Factory {
 }
 
 func createDefaultConfig() component.Config {
-	return &Config{}
+	return &Config{
+		TargetDiscoveryFreq: 15 * time.Second,
+		CollectFreq:         5 * time.Second,
+	}
 }
 
 // createTraces creates a trace receiver based on provided config.

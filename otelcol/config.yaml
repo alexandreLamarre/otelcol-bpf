@@ -11,17 +11,25 @@ exporters:
   otlphttp/debug:
     endpoint : http://127.0.0.1:4318
     compression: none
+  debug:
+    verbosity: detailed
+    sampling_initial: 5
+    sampling_thereafter: 200
 extensions:
   pprof:
   healthcheckv2:
 service:
   extensions: [healthcheckv2, pprof]
   pipelines:
-    metrics:
+    traces:
       receivers: [bpfstack]
       processors: [batch]
-      exporters: [otlphttp/debug]
-    logs:
-      receivers: [bpfstack]
-      processors: [batch]
-      exporters: [otlphttp/debug]
+      exporters: [otlp/debug]
+    # metrics:
+    #   receivers: [bpfstack]
+    #   processors: [batch]
+    #   exporters: [debug]
+    # logs:
+    #   receivers: [bpfstack]
+    #   processors: [batch]
+    #   exporters: [debug]

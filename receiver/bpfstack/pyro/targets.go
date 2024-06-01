@@ -12,27 +12,11 @@ import (
 
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
-	ebpfspy "github.com/grafana/pyroscope/ebpf"
 	"github.com/grafana/pyroscope/ebpf/sd"
 	"github.com/prometheus/common/model"
 	"github.com/prometheus/prometheus/model/labels"
 	"github.com/prometheus/prometheus/model/relabel"
 )
-
-type RelabelConfig struct {
-	SourceLabels []string
-	Separator    string
-	Regex        string
-	TargetLabel  string `yaml:"target_label,omitempty"`
-	Replacement  string `yaml:"replacement,omitempty"`
-	Action       string
-}
-
-type Config struct {
-	TargetsOptions sd.TargetsOptions
-	RelabelConfig  []*RelabelConfig
-	SessionOptions ebpfspy.SessionOptions
-}
 
 func convertTargetOptions(logger log.Logger, config *Config) sd.TargetsOptions {
 	targets := relabelProcessTargets(getProcessTargets(logger), config.RelabelConfig)

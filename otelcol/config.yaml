@@ -1,5 +1,16 @@
 receivers:
   bpfstack:
+  pprofreceiver:
+    endpoints:
+      - endpoint: "http://localhost:6060"
+        targets:
+          profile:
+          block:
+          mutex:
+          goroutine:
+          heap:
+          threadcreate:
+          allocs:
 processors:
   batch:
 exporters:
@@ -21,10 +32,14 @@ extensions:
 service:
   extensions: [healthcheckv2, pprof]
   pipelines:
-    traces:
-      receivers: [bpfstack]
+    # traces:
+    #   receivers: [bpfstack]
+    #   processors: [batch]
+    #   exporters: [otlp/debug]
+    logs:
+      receivers: [pprofreceiver]
       processors: [batch]
-      exporters: [otlp/debug]
+      exporters: [debug]
     # metrics:
     #   receivers: [bpfstack]
     #   processors: [batch]

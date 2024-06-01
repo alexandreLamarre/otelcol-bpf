@@ -1,4 +1,4 @@
-type: pprof
+type: pprofreceiver
 
 status:
   class: receiver

@@ -16,6 +16,7 @@ import (
 	pprofextension "github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension"
 	batchprocessor "go.opentelemetry.io/collector/processor/batchprocessor"
 	bpfstack "github.com/alexandreLamarre/otelbpf/receiver/bpfstack"
+	pprofreceiver "github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver"
 )
 
 func components() (otelcol.Factories, error) {
@@ -32,6 +33,7 @@ func components() (otelcol.Factories, error) {
 
 	factories.Receivers, err = receiver.MakeFactoryMap(
 		bpfstack.NewFactory(),
+		pprofreceiver.NewFactory(),
 	)
 	if err != nil {
 		return otelcol.Factories{}, err

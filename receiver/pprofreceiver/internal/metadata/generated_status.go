@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	Type = component.MustNewType("pprof")
+	Type = component.MustNewType("pprofreceiver")
 )
 
 const (

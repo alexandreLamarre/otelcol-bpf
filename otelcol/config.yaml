@@ -32,10 +32,10 @@ extensions:
 service:
   extensions: [healthcheckv2, pprof]
   pipelines:
-    # traces:
-    #   receivers: [bpfstack]
-    #   processors: [batch]
-    #   exporters: [otlp/debug]
+    traces:
+      receivers: [bpfstack]
+      processors: [batch]
+      exporters: [otlp/debug]
     logs:
       receivers: [pprofreceiver]
       processors: [batch]

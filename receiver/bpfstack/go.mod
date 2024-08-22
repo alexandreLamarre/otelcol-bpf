@@ -1,6 +1,6 @@
 module github.com/alexandreLamarre/otelbpf/receiver/bpfstack
 
-go 1.22.3
+go 1.23.0
 
 require (
 	github.com/alexandreLamarre/otelbpf v0.107.0

@@ -7,7 +7,8 @@ import (
 )
 
 var (
-	Type = component.MustNewType("bpfstack")
+	Type      = component.MustNewType("bpfstack")
+	ScopeName = "github.com/alexandreLamarre/otelbpf/receiver/bpfstack"
 )
 
 const (

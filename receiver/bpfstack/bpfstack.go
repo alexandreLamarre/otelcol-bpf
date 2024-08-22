@@ -37,10 +37,10 @@ type bpfStackReceiver struct {
 
 	done chan struct{}
 
-	settings *receiver.CreateSettings
+	settings *receiver.Settings
 }
 
-func newBpfStackReceiver(cfg *Config, set *receiver.CreateSettings) (*bpfStackReceiver, error) {
+func newBpfStackReceiver(cfg *Config, set *receiver.Settings) (*bpfStackReceiver, error) {
 	logger := kitlogzap.NewZapSugarLogger(set.Logger, zapcore.DebugLevel)
 
 	stackCollector, err := pyro.NewStackCollector(

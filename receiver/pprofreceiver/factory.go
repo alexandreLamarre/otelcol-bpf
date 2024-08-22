@@ -32,7 +32,7 @@ func createDefaultConfig() component.Config {
 
 func createLogs(
 	_ context.Context,
-	set receiver.CreateSettings,
+	set receiver.Settings,
 	cfg component.Config,
 	consumer consumer.Logs,
 ) (receiver.Logs, error) {

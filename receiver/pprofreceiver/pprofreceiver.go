@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/samber/lo"
@@ -107,7 +108,8 @@ type queueData struct {
 
 type reqWrapper struct {
 	req                *http.Request
-	labels             map[string]string
+	metdata            Metadata
+	extraLabels        map[string]string
 	collectionInterval time.Duration
 }
 
@@ -156,10 +158,21 @@ func (e *endpointClient) constructRequest(
 	if err != nil {
 		return nil, err
 	}
+	uri, err := url.Parse(e.config.Endpoint)
+	if err != nil {
+		return nil, err
+	}
+
 	return &reqWrapper{
 		req:                req,
 		collectionInterval: collectionInterval,
-		labels:             labels,
+		extraLabels:        labels,
+		metdata: Metadata{
+			Host:        uri.Host,
+			Port:        uri.Port(),
+			Id:          e.config.Id,
+			ProfileType: suffix,
+		},
 	}, nil
 }
 
@@ -191,10 +204,8 @@ func (e *endpointClient) run(ctx context.Context, consumerQueue chan<- queueData
 						consumerQueue <- queueData{
 							data: data,
 							labels: lo.Assign(
-								map[string]string{
-									"pprof_endpoint": req.req.URL.String(),
-								},
-								req.labels,
+								req.metdata.ToLabels(),
+								req.extraLabels,
 							),
 						}
 					}
@@ -224,10 +235,8 @@ func (e *endpointClient) run(ctx context.Context, consumerQueue chan<- queueData
 						consumerQueue <- queueData{
 							data: data,
 							labels: lo.Assign(
-								map[string]string{
-									"pprof_endpoint": req.req.URL.String(),
-								},
-								req.labels,
+								req.metdata.ToLabels(),
+								req.extraLabels,
 							),
 						}
 					}
@@ -236,4 +245,34 @@ func (e *endpointClient) run(ctx context.Context, consumerQueue chan<- queueData
 		}()
 	}
 	<-ctx.Done()
+}
+
+type Metadata struct {
+	Id          string
+	ProfileType string
+	Host        string
+	Port        string
+}
+
+func (m *Metadata) ToLabels() map[string]string {
+	return map[string]string{
+		pprofIdLabel:          m.Id,
+		pprofProfileTypeLabel: m.ProfileType,
+		pprofHostLabel:        m.Host,
+		pprofPortLabel:        m.Port,
+	}
+}
+
+const (
+	pprofIdLabel          = "pprof_id"
+	pprofProfileTypeLabel = "pprof_profile_type"
+	pprofHostLabel        = "pprof_host"
+	pprofPortLabel        = "pprof_port"
+)
+
+var reservedLabels = []string{
+	pprofIdLabel,
+	pprofProfileTypeLabel,
+	pprofHostLabel,
+	pprofPortLabel,
 }

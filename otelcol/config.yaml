@@ -2,7 +2,10 @@ receivers:
   # bpfstack:
   pprofreceiver:
     endpoints:
-      - endpoint: "http://localhost:6060"
+      - id : example-server
+        extra_labels:
+          foo : bar
+        endpoint: "http://localhost:6060"
         targets:
           profile:
           block:

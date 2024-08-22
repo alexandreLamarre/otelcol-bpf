@@ -3,6 +3,8 @@ package pprofreceiver
 import (
 	"errors"
 	"fmt"
+	"maps"
+	"slices"
 	"strings"
 	"time"
 
@@ -81,12 +83,23 @@ func (g *GenericConfig) Validate() error {
 }
 
 type EndpointConfig struct {
+	Id            string                    `mapstructure:"id"`
+	ExtraLabels   map[string]string         `mapstructure:"extra_labels"`
 	Endpoint      string                    `mapstructure:"endpoint"`
 	GenericConfig *GenericConfig            `mapstructure:"local"`
 	Targets       map[string]*GenericConfig `mapstructure:"targets"`
 }
 
 func (e *EndpointConfig) Validate() error {
+	if e.Id == "" {
+		return errors.New("id must be set")
+	}
+
+	for key := range maps.Keys(e.ExtraLabels) {
+		if slices.Contains(reservedLabels, key) {
+			return fmt.Errorf("label %s is reserved", key)
+		}
+	}
 	if e.Endpoint == "" {
 		return errors.New("endpoint must be set")
 	}

@@ -1,5 +1,5 @@
 receivers:
-  bpfstack:
+  # bpfstack:
   pprofreceiver:
     endpoints:
       - endpoint: "http://localhost:6060"
@@ -26,20 +26,25 @@ exporters:
     verbosity: detailed
     sampling_initial: 5
     sampling_thereafter: 200
+  otlp/pprofserver:
+    endpoint: 127.0.0.1:10001
+    compression: none
+    tls:
+      insecure: true
 extensions:
   pprof:
   healthcheckv2:
 service:
   extensions: [healthcheckv2, pprof]
   pipelines:
-    traces:
-      receivers: [bpfstack]
-      processors: [batch]
-      exporters: [otlp/debug]
+    # traces:
+    #   receivers: [bpfstack]
+    #   processors: [batch]
+    #   exporters: [otlp/debug]
     logs:
       receivers: [pprofreceiver]
       processors: [batch]
-      exporters: [debug]
+      exporters: [debug, otlp/pprofserver]
     # metrics:
     #   receivers: [bpfstack]
     #   processors: [batch]

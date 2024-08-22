@@ -28,7 +28,7 @@ require (
 	go.uber.org/zap v1.27.0
 )
 
-replace github.com/alexandreLamarre/otelbpf => ../..
+replace github.com/alexandreLamarre/otelbpf v0.107.0 => ../..
 
 require (
 	github.com/avvmoto/buf-readerat v0.0.0-20171115124131-a17c8cb89270 // indirect

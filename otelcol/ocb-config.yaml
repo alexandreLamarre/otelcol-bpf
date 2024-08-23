@@ -1,5 +1,5 @@
 dist:
-  module: github.com/alexandreLamarre/otelbpf/otelcolbpf 
+  module: github.com/alexandreLamarre/otelcol-bpf/otelcolbpf 
   name: otelcol-bpf
   description: "BPF OpenTelemetry Collector distribution"
   otelcol_version: "0.107.0"
@@ -7,8 +7,8 @@ dist:
   output_path: ./
 
 receivers:
-  - gomod: github.com/alexandreLamarre/otelbpf/receiver/bpfstack v0.107.0
-  - gomod: github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver v0.107.0
+  - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.107.0
+  - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.107.0
 processors:
   - gomod: go.opentelemetry.io/collector/processor/batchprocessor v0.107.0
 extensions:
@@ -21,6 +21,6 @@ exporters:
 
 
 replaces:
-  - github.com/alexandreLamarre/otelbpf/receiver/bpfstack v0.107.0 => ../receiver/bpfstack
-  - github.com/alexandreLamarre/otelbpf v0.107.0 => ../
-  - github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver v0.107.0 => ../receiver/pprofreceiver
+  - github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.107.0 => ../receiver/bpfstack
+  - github.com/alexandreLamarre/otelcol-bpf v0.107.0 => ../
+  - github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.107.0 => ../receiver/pprofreceiver

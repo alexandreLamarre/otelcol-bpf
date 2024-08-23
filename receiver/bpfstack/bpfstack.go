@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/alexandreLamarre/otelbpf/receiver/bpfstack/internal/metadata"
-	"github.com/alexandreLamarre/otelbpf/receiver/bpfstack/pprof"
-	"github.com/alexandreLamarre/otelbpf/receiver/bpfstack/pyro"
+	"github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack/internal/metadata"
+	"github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack/pprof"
+	"github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack/pyro"
 	kitlogzap "github.com/go-kit/kit/log/zap"
 	"github.com/google/pprof/profile"
 	"github.com/google/uuid"

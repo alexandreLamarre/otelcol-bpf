@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver/internal/metadata"
+	"github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver/internal/metadata"
 	"github.com/samber/lo"
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/consumer"

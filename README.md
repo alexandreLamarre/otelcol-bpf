@@ -1,4 +1,4 @@
-# Otelcolbpf
+# otelcol-bpf
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/alexandreLamarre/otelcol-bpf)
 ![GitHub License](https://img.shields.io/github/license/alexandreLamarre/otelcol-bpf)
@@ -57,7 +57,7 @@ receivers:
 service:
     pipelines:
         traces:
-        receivers: [bpfstack]
-        processors: [batch]
-        exporters: [otlp/debug]
+          receivers: [bpfstack]
+          processors: [batch]
+          exporters: [otlp/debug]
 ```

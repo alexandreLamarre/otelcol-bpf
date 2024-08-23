@@ -1,5 +1,6 @@
 # otelcol-bpf
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/alexandreLamarre/otelcol-bpf/ci.yaml)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/alexandreLamarre/otelcol-bpf)
 ![GitHub License](https://img.shields.io/github/license/alexandreLamarre/otelcol-bpf)
 ![OpenTelemetry Collector version](https://img.shields.io/badge/collector-0.107.0-blue)

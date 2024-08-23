@@ -1,0 +1,32 @@
+name : Build
+
+on:
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+      - ".gitignore"
+      - "CODEOWNERS"
+      - "LICENSE"
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses : actions/setup-go@v5
+        with:
+          go-version: ">=1.22.0"
+      - name : Install build dependencies
+        run : |
+          wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/cmd%2Fbuilder%2Fv0.107.0/ocb_0.107.0_linux_amd64
+          mv -v ocb_0.107.0_linux_amd64 /usr/local/bin/ocb
+          chmod +x /usr/local/bin/ocb
+          echo "/usr/local/bin/" >> $GITHUB_PATH
+      - name : Build
+        run: make build

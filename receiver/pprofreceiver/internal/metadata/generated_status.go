@@ -8,7 +8,7 @@ import (
 
 var (
 	Type      = component.MustNewType("pprofreceiver")
-	ScopeName = "github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver"
+	ScopeName = "github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver"
 )
 
 const (

@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/alexandreLamarre/otelbpf/internal/sharedcomponent"
-	"github.com/alexandreLamarre/otelbpf/receiver/bpfstack/internal/metadata"
+	"github.com/alexandreLamarre/otelcol-bpf/internal/sharedcomponent"
+	"github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack/internal/metadata"
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/consumer"
 	"go.opentelemetry.io/collector/receiver"

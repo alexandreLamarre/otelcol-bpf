@@ -15,8 +15,8 @@ import (
 	healthcheckv2extension "github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension"
 	pprofextension "github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension"
 	batchprocessor "go.opentelemetry.io/collector/processor/batchprocessor"
-	bpfstack "github.com/alexandreLamarre/otelbpf/receiver/bpfstack"
-	pprofreceiver "github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver"
+	bpfstack "github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack"
+	pprofreceiver "github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver"
 )
 
 func components() (otelcol.Factories, error) {

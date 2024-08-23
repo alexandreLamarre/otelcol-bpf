@@ -1,4 +1,4 @@
-module github.com/alexandreLamarre/otelbpf/receiver/pprofreceiver
+module github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver
 
 go 1.23.0
 

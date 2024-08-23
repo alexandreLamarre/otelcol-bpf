@@ -1,9 +1,9 @@
-module github.com/alexandreLamarre/otelbpf/receiver/bpfstack
+module github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack
 
 go 1.23.0
 
 require (
-	github.com/alexandreLamarre/otelbpf v0.107.0
+	github.com/alexandreLamarre/otelcol-bpf v0.107.0
 	github.com/cilium/ebpf v0.11.0
 	github.com/go-kit/kit v0.12.0
 	github.com/go-kit/log v0.2.1
@@ -28,7 +28,7 @@ require (
 	go.uber.org/zap v1.27.0
 )
 
-replace github.com/alexandreLamarre/otelbpf v0.107.0 => ../..
+replace github.com/alexandreLamarre/otelcol-bpf v0.107.0 => ../..
 
 require (
 	github.com/avvmoto/buf-readerat v0.0.0-20171115124131-a17c8cb89270 // indirect

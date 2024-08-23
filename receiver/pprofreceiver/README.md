@@ -7,6 +7,10 @@
 | Distributions | [bpf] |
 | License | Apache 2 |
 
+## Integrations
+
+Exports to the [pprof-server](https://github.com/alexandreLamarre/pprof-server) backend that stores, aggregates and visualizes pprof profiles.
+
 ## Special Thanks
 
 This project is only made possible due to the awesome work of [OpenTelemetry](https://github.com/open-telemetry) & [Pprof](https://github.com/google/pprof)

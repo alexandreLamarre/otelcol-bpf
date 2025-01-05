@@ -1,5 +1,5 @@
 receivers:
-  # bpfstack:
+  bpfstack:
   pprofreceiver:
     endpoints:
       - id : example-server
@@ -45,9 +45,9 @@ service:
     #   processors: [batch]
     #   exporters: [otlp/debug]
     logs:
-      receivers: [pprofreceiver]
+      receivers: [bpfstack, pprofreceiver]
       processors: [batch]
-      exporters: [debug, otlp/pprofserver]
+      exporters: [otlp/pprofserver]
     # metrics:
     #   receivers: [bpfstack]
     #   processors: [batch]

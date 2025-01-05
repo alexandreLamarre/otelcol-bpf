@@ -9,6 +9,7 @@ import (
 	"github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack/internal/metadata"
 	"github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack/pprof"
 	"github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack/pyro"
+	"github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver"
 	kitlogzap "github.com/go-kit/kit/log/zap"
 	"github.com/google/pprof/profile"
 	"github.com/google/uuid"
@@ -177,15 +178,40 @@ type ProfileSeries struct {
 func (ps *ProfileSeries) ToLogs() plog.Logs {
 	logs := plog.NewLogs()
 	rsc := logs.ResourceLogs().AppendEmpty()
-	for k, v := range ps.Labels {
+
+	var instanceId string
+	commName, ok := ps.Labels["comm"]
+	if ok {
+		instanceId = commName
+	}
+
+	serviceName, ok := ps.Labels["service_name"]
+	if ok {
+		instanceId = serviceName
+	}
+
+	if instanceId == "" {
+		instanceId = "unknown"
+	}
+
+	md := pprofreceiver.Metadata{
+		Id:          instanceId,
+		ProfileType: "profile",
+	}
+	labels := lo.Assign(ps.Labels, md.ToLabels())
+	for k, v := range labels {
 		rsc.Resource().Attributes().PutStr(k, v)
 	}
+
 	scpL := rsc.ScopeLogs().AppendEmpty()
 	for _, prof := range ps.Series {
 		lr := scpL.LogRecords().AppendEmpty()
-		lr.Body().SetStr(
-			prof.String(),
-		)
+		b := bytes.NewBuffer([]byte{})
+		if err := prof.Write(b); err != nil {
+			ps.logger.Warn(fmt.Sprintf("Error writing profile to buffer: %v", err))
+			continue
+		}
+		lr.Body().SetEmptyBytes().Append(b.Bytes()...)
 	}
 	return logs
 }

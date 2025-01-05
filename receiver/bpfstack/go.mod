@@ -3,6 +3,7 @@ module github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack
 go 1.23.0
 
 require (
+	github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.0.1
 	github.com/alexandreLamarre/otelcol-bpf v0.107.0
 	github.com/cilium/ebpf v0.11.0
 	github.com/go-kit/kit v0.12.0
@@ -26,6 +27,10 @@ require (
 	go.opentelemetry.io/collector/semconv v0.96.0
 	go.uber.org/goleak v1.3.0
 	go.uber.org/zap v1.27.0
+)
+
+replace (
+	github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver => ../pprofreceiver
 )
 
 replace github.com/alexandreLamarre/otelcol-bpf v0.107.0 => ../..

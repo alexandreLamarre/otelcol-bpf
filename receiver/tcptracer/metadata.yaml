@@ -1,0 +1,7 @@
+type: tcptracer
+
+status:
+  class: receiver
+  stability:
+    alpha: [metrics, traces]
+  distributions: [bpf]

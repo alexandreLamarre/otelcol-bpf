@@ -5,13 +5,13 @@ module github.com/alexandreLamarre/otelcol-bpf/otelcolbpf
 go 1.23.0
 
 require (
+	github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.107.0
 	github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.107.0
 	github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.107.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension v0.107.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension v0.107.0
 	go.opentelemetry.io/collector/component v0.107.0
 	go.opentelemetry.io/collector/confmap v0.107.0
-	go.opentelemetry.io/collector/confmap/converter/expandconverter v0.107.0
 	go.opentelemetry.io/collector/confmap/provider/envprovider v0.107.0
 	go.opentelemetry.io/collector/confmap/provider/fileprovider v0.107.0
 	go.opentelemetry.io/collector/confmap/provider/httpprovider v0.107.0
@@ -148,3 +148,5 @@ replace github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.107.0 => ..
 replace github.com/alexandreLamarre/otelcol-bpf v0.107.0 => ../
 
 replace github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.107.0 => ../receiver/pprofreceiver
+
+replace github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.107.0 => ../extension/bpflogger

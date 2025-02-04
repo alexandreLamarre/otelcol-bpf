@@ -3,6 +3,7 @@
 package main
 
 import (
+	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/connector"
 	"go.opentelemetry.io/collector/exporter"
 	"go.opentelemetry.io/collector/extension"
@@ -14,6 +15,7 @@ import (
 	debugexporter "go.opentelemetry.io/collector/exporter/debugexporter"
 	healthcheckv2extension "github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension"
 	pprofextension "github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension"
+	bpflogger "github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger"
 	batchprocessor "go.opentelemetry.io/collector/processor/batchprocessor"
 	bpfstack "github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack"
 	pprofreceiver "github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver"
@@ -26,10 +28,15 @@ func components() (otelcol.Factories, error) {
 	factories.Extensions, err = extension.MakeFactoryMap(
 		healthcheckv2extension.NewFactory(),
 		pprofextension.NewFactory(),
+		bpflogger.NewFactory(),
 	)
 	if err != nil {
 		return otelcol.Factories{}, err
 	}
+	factories.ExtensionModules = make(map[component.Type]string, len(factories.Extensions))
+	factories.ExtensionModules[healthcheckv2extension.NewFactory().Type()] = "github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension v0.107.0"
+	factories.ExtensionModules[pprofextension.NewFactory().Type()] = "github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension v0.107.0"
+	factories.ExtensionModules[bpflogger.NewFactory().Type()] = "github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.107.0"
 
 	factories.Receivers, err = receiver.MakeFactoryMap(
 		bpfstack.NewFactory(),
@@ -38,6 +45,9 @@ func components() (otelcol.Factories, error) {
 	if err != nil {
 		return otelcol.Factories{}, err
 	}
+	factories.ReceiverModules = make(map[component.Type]string, len(factories.Receivers))
+	factories.ReceiverModules[bpfstack.NewFactory().Type()] = "github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.107.0"
+	factories.ReceiverModules[pprofreceiver.NewFactory().Type()] = "github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.107.0"
 
 	factories.Exporters, err = exporter.MakeFactoryMap(
 		otlpexporter.NewFactory(),
@@ -47,6 +57,10 @@ func components() (otelcol.Factories, error) {
 	if err != nil {
 		return otelcol.Factories{}, err
 	}
+	factories.ExporterModules = make(map[component.Type]string, len(factories.Exporters))
+	factories.ExporterModules[otlpexporter.NewFactory().Type()] = "go.opentelemetry.io/collector/exporter/otlpexporter v0.107.0"
+	factories.ExporterModules[otlphttpexporter.NewFactory().Type()] = "go.opentelemetry.io/collector/exporter/otlphttpexporter v0.107.0"
+	factories.ExporterModules[debugexporter.NewFactory().Type()] = "go.opentelemetry.io/collector/exporter/debugexporter v0.107.0"
 
 	factories.Processors, err = processor.MakeFactoryMap(
 		batchprocessor.NewFactory(),
@@ -54,12 +68,15 @@ func components() (otelcol.Factories, error) {
 	if err != nil {
 		return otelcol.Factories{}, err
 	}
+	factories.ProcessorModules = make(map[component.Type]string, len(factories.Processors))
+	factories.ProcessorModules[batchprocessor.NewFactory().Type()] = "go.opentelemetry.io/collector/processor/batchprocessor v0.107.0"
 
 	factories.Connectors, err = connector.MakeFactoryMap(
 	)
 	if err != nil {
 		return otelcol.Factories{}, err
 	}
+	factories.ConnectorModules = make(map[component.Type]string, len(factories.Connectors))
 
 	return factories, nil
 }

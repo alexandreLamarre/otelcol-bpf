@@ -8,7 +8,7 @@ import (
 
 var (
 	Type      = component.MustNewType("bpf_logger")
-	ScopeName = "github.com/alexandreLamarre/otelbpf/extension/bpflogger"
+	ScopeName = "github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger"
 )
 
 const (

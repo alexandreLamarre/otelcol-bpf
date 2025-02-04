@@ -1,0 +1,7 @@
+type: bpf_logger
+
+status:
+  class : extension
+  stability :
+    alpha : [extension]
+  distributions : [bpf]

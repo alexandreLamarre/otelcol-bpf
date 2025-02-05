@@ -29,6 +29,8 @@ jobs:
         run: |
           git clone --depth 1 --branch v0.118.0 https://github.com/open-telemetry/opentelemetry-collector /tmp/opentelemetry-collector
           cd /tmp/opentelemetry-collector/cmd/mdatagen && go install .
+      - name : Run go mod tidy
+        run : make gotidy
       - name : Run generate targets
         run : make gogenerate
       - name : Validate repo

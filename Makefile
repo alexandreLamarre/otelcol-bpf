@@ -24,6 +24,10 @@ for-all-target: $(GOMODULES)
 gogenerate:
 	@$(MAKE) for-all-target TARGET="generate"
 
+.PHONY: gotidy
+gotidy:
+	@$(MAKE) for-all-target TARGET="tidy"
+
 build:
 	@echo "Building otelcol-bpf..."
 	cd ./cmd/otelcol && ocb --config=ocb-config.yaml

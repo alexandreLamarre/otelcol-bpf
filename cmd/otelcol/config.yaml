@@ -1,19 +1,19 @@
 receivers:
   bpfstack:
-  pprofreceiver:
-    endpoints:
-      - id : example-server
-        extra_labels:
-          foo : bar
-        endpoint: "http://localhost:6060"
-        targets:
-          profile:
-          block:
-          mutex:
-          goroutine:
-          heap:
-          threadcreate:
-          allocs:
+  # pprofreceiver:
+  #   endpoints:
+  #     - id : example-server
+  #       extra_labels:
+  #         foo : bar
+  #       endpoint: "http://localhost:6060"
+  #       targets:
+  #         profile:
+  #         block:
+  #         mutex:
+  #         goroutine:
+  #         heap:
+  #         threadcreate:
+  #         allocs:
 processors:
   batch:
 exporters:
@@ -46,7 +46,7 @@ service:
     #   processors: [batch]
     #   exporters: [otlp/debug]
     logs:
-      receivers: [bpfstack, pprofreceiver]
+      receivers: [bpfstack]
       processors: [batch]
       exporters: [otlp/pprofserver]
     # metrics:

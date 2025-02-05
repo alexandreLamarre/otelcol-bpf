@@ -37,8 +37,9 @@ exporters:
 extensions:
   pprof:
   healthcheckv2:
+  bpf_logger:
 service:
-  extensions: [healthcheckv2, pprof]
+  extensions: [healthcheckv2, pprof, bpf_logger]
   pipelines:
     # traces:
     #   receivers: [bpfstack]

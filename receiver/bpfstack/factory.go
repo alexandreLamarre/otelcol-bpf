@@ -41,7 +41,6 @@ func createTraces(
 		func() (*bpfStackReceiver, error) {
 			return newBpfStackReceiver(oCfg, &set)
 		},
-		&set.TelemetrySettings,
 	)
 	if err != nil {
 		return nil, err
@@ -64,7 +63,6 @@ func createMetrics(
 		func() (*bpfStackReceiver, error) {
 			return newBpfStackReceiver(oCfg, &set)
 		},
-		&set.TelemetrySettings,
 	)
 	if err != nil {
 		return nil, err
@@ -87,7 +85,6 @@ func createLog(
 		func() (*bpfStackReceiver, error) {
 			return newBpfStackReceiver(oCfg, &set)
 		},
-		&set.TelemetrySettings,
 	)
 	if err != nil {
 		return nil, err

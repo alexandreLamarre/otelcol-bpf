@@ -170,10 +170,10 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.119.0 => ../receiver/bpfstack
+replace github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.119.0 => ../../receiver/bpfstack
 
-replace github.com/alexandreLamarre/otelcol-bpf v0.119.0 => ../
+replace github.com/alexandreLamarre/otelcol-bpf v0.119.0 => ../../
 
-replace github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.119.0 => ../receiver/pprofreceiver
+replace github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.119.0 => ../../receiver/pprofreceiver
 
-replace github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.119.0 => ../extension/bpflogger
+replace github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.119.0 => ../../extension/bpflogger

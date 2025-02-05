@@ -1,5 +1,8 @@
 name : Build
 
+permissions:
+  contents : read
+
 on:
   pull_request:
     paths-ignore:
@@ -11,6 +14,9 @@ on:
   push:
     branches:
       - main
+
+env:
+  OCB_VERSION : "0.119.0"
 
 jobs:
   build:
@@ -24,8 +30,8 @@ jobs:
           go-version: ">=1.22.0"
       - name : Install build dependencies
         run : |
-          wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/cmd%2Fbuilder%2Fv0.107.0/ocb_0.107.0_linux_amd64
-          mv -v ocb_0.107.0_linux_amd64 /usr/local/bin/ocb
+          wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/cmd%2Fbuilder%2Fv${OCB_VERSION}/ocb_${OCB_VERSION}_linux_amd64
+          mv -v ocb_${OCB_VERSION}_linux_amd64 /usr/local/bin/ocb
           chmod +x /usr/local/bin/ocb
           echo "/usr/local/bin/" >> $GITHUB_PATH
       - name : Build

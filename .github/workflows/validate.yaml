@@ -33,5 +33,7 @@ jobs:
         run : make gotidy
       - name : Run generate targets
         run : make gogenerate
+      - name : Generate BPF headers
+        run : make get-headers
       - name : Validate repo
         run : git diff --exit-code

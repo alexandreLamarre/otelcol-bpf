@@ -2,6 +2,8 @@ module github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack
 
 go 1.23.0
 
+toolchain go1.23.4
+
 require (
 	github.com/alexandreLamarre/otelcol-bpf v0.119.0
 	github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.0.1

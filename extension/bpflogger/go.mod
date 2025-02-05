@@ -1,6 +1,8 @@
 module github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger
 
-go 1.22.3
+go 1.23.0
+
+toolchain go1.23.4
 
 require (
 	github.com/stretchr/testify v1.10.0

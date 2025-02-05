@@ -2,6 +2,8 @@ module github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver
 
 go 1.23.0
 
+toolchain go1.23.4
+
 require (
 	github.com/samber/lo v1.39.0
 	github.com/stretchr/testify v1.10.0

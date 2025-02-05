@@ -3,7 +3,7 @@ module github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack
 go 1.23.0
 
 require (
-	github.com/alexandreLamarre/otelcol-bpf v0.107.0
+	github.com/alexandreLamarre/otelcol-bpf v0.119.0
 	github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.0.1
 	github.com/cilium/ebpf v0.11.0
 	github.com/go-kit/kit v0.12.0
@@ -33,7 +33,7 @@ require (
 
 replace github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver => ../pprofreceiver
 
-replace github.com/alexandreLamarre/otelcol-bpf v0.107.0 => ../..
+replace github.com/alexandreLamarre/otelcol-bpf v0.119.0 => ../..
 
 require (
 	github.com/avvmoto/buf-readerat v0.0.0-20171115124131-a17c8cb89270 // indirect

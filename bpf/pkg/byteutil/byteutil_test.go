@@ -12,7 +12,11 @@ func TestCCharSliceToStr(t *testing.T) {
 	byteArray := []int8{104, 101, 108, 108, 111, 0}
 
 	ret := byteutil.CCharSliceToStr(byteArray)
-	require.Equal(t, ret, "hello\x00")
+	require.Equal(t, ret, "hello")
+
+	byteArray2 := []int8{104, 0, 0, 0}
+	ret2 := byteutil.CCharSliceToStr(byteArray2)
+	require.Equal(t, ret2, "h")
 }
 
 func TestReadNullTerminatedString(t *testing.T) {

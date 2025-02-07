@@ -9,13 +9,16 @@ var (
 	ErrNoNullTerminator = errors.New("null terminator not found before array end")
 )
 
+// excludes null terminators from output string
 func CCharSliceToStr(arr []int8) string {
 	byteSlice := make([]byte, len(arr))
+	retLen := 0
 	for i, b := range arr {
 		if b == 0 {
-			return string(byteSlice)
+			return string(byteSlice[:retLen])
 		}
 		byteSlice[i] = byte(b)
+		retLen++
 	}
 	return string(byteSlice)
 

@@ -4,7 +4,7 @@ include ./Makefile.Common
 .PHONY: run
 CONFIG_TARGET ?= ./cmd/otelcol/config.yaml
 
-EXCLUDE_PATHS="./cmd"
+EXCLUDE_PATHS := ./cmd|^./bpf
 # ALL_MODULES includes ./* dirs (excludes . dir)
 ALL_MODULES := $(shell find . -type f -name "go.mod" -exec dirname {} \; | sort | grep -E '^./' | grep -v -E "$(EXCLUDE_PATHS)" )
 # Append root module to all modules

@@ -14,11 +14,16 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+build/
+.vscode/settings.json
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
 .vscode/settings.json
 build
+bin/
+*.log
 
 # env file
 .env

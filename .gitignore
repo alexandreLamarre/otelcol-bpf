@@ -22,6 +22,8 @@ build/
 
 .vscode/settings.json
 build
+bin/
+*.log
 
 # env file
 .env

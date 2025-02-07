@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/alexandreLamarre/otelcol-bpf/internal/byteutil"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/byteutil"
 	"github.com/stretchr/testify/require"
 )
 

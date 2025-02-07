@@ -12,6 +12,9 @@ var (
 func CCharSliceToStr(arr []int8) string {
 	byteSlice := make([]byte, len(arr))
 	for i, b := range arr {
+		if b == 0 {
+			return string(byteSlice)
+		}
 		byteSlice[i] = byte(b)
 	}
 	return string(byteSlice)

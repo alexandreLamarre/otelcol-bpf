@@ -1,7 +1,0 @@
-type: bpfproc
-
-status:
-  class: receiver
-  stability:
-    alpha: [metrics]
-  distributions: [bpf]

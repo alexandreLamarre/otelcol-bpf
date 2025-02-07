@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"os/signal"
 	"slices"
@@ -34,7 +35,10 @@ func BuildProcExecCommand() *cobra.Command {
 			}
 			ctx, ca := context.WithTimeout(cmd.Context(), collectFor)
 			defer ca()
-			events := run(ctx)
+			events, err := run(ctx)
+			if err != nil {
+				return err
+			}
 			w := table.NewWriter()
 			if strings.HasPrefix(outputFormat, "log") {
 				header := []any{"COMM", "PPID", "PID", "UID", "ELAPSED (ns)"}
@@ -88,39 +92,37 @@ func readPerfEvent(buf *bytes.Buffer, event *procexec.ProcexecEvent) error {
 	if err != nil {
 		return err
 	}
-	// Now handle reading Comm (null-terminated string)
 	if err := byteutil.ReadNullTerminatedString(buf, event.Comm[:]); err != nil {
 		return err
 	}
-
-	// Finally, handle reading Args (null-terminated string)
 	if err := byteutil.ReadNullTerminatedString(buf, event.Args[:]); err != nil {
 		return err
 	}
 	return nil
 }
 
-func run(ctx context.Context) []procexec.ProcexecEvent {
+func run(ctx context.Context) ([]procexec.ProcexecEvent, error) {
+	logger := slog.Default()
 	stopper := make(chan os.Signal, 1)
 	signal.Notify(stopper, os.Interrupt, syscall.SIGTERM)
 	if err := rlimit.RemoveMemlock(); err != nil {
-		log.Fatalf("failed to remove rlimit : %s", err)
+		return nil, fmt.Errorf("failed to remove rlimit : %s", err)
 	}
 
 	objs, err := procexec.LoadObjects()
 	if err != nil {
-		log.Fatalf("loading proc exec events : %s", err)
+		return nil, fmt.Errorf("loading proc exec events : %s", err)
 	}
 
 	procExec, err := link.Tracepoint("sched", "sched_process_exec", objs.Obj.SchedSchedProcessExec, nil)
 	if err != nil {
-		log.Fatalf("failed to start sys_exit_execve kprobe : %s", err)
+		return nil, fmt.Errorf("failed to start sys_exit_execve kprobe : %s", err)
 	}
 	defer procExec.Close()
 
 	procExit, err := link.Tracepoint("sched", "sched_process_exit", objs.Obj.SchedSchedProcessExit, nil)
 	if err != nil {
-		log.Fatalf("failed to start sys_exit_execve kprobe : %s", err)
+		return nil, fmt.Errorf("failed to start sys_exit_execve kprobe : %s", err)
 	}
 	defer procExit.Close()
 
@@ -129,7 +131,7 @@ func run(ctx context.Context) []procexec.ProcexecEvent {
 
 	rd, err := perf.NewReader(objs.Obj.Events, os.Getpagesize())
 	if err != nil {
-		log.Fatalf("creating perf event reader : %s", err)
+		return nil, fmt.Errorf("creating perf event reader : %s", err)
 	}
 	defer rd.Close()
 	go func() {
@@ -139,36 +141,36 @@ func run(ctx context.Context) []procexec.ProcexecEvent {
 		case <-stopper:
 		case <-ctx.Done():
 		}
-		log.Println("Received signal, exiting program..")
+		logger.Info("Received signal, exiting program..")
 
 		if err := rd.Close(); err != nil {
 			log.Fatalf("closing perf event reader: %s", err)
 		}
 	}()
-	log.Println("waiting for events")
+	logger.Info("waiting for events")
 	allEvents := []procexec.ProcexecEvent{}
 	for {
 		select {
 		case <-ctx.Done():
-			return allEvents
+			return allEvents, nil
 		default:
 		}
 		record, err := rd.Read()
 		if errors.Is(err, perf.ErrClosed) {
-			return allEvents
+			return allEvents, nil
 		}
 		if err != nil {
-			log.Printf("failed to read from perf buffer array : %s", err)
+			logger.Error(fmt.Sprintf("failed to read from perf buffer array : %s", err))
 		}
 
 		if record.LostSamples != 0 {
-			log.Printf("perf event buffer full, dropped %d samples", record.LostSamples)
+			logger.Warn(fmt.Sprintf("perf event buffer full, dropped %d samples", record.LostSamples))
 			continue
 		}
 
 		var event procexec.ProcexecEvent
 		if err := readPerfEvent(bytes.NewBuffer(record.RawSample), &event); err != nil {
-			log.Println("Got error while reading perf event : ", err)
+			logger.Error(fmt.Sprintf("Got error while reading perf event : %s", err))
 			continue
 		}
 		allEvents = append(allEvents, event)
@@ -178,6 +180,6 @@ func run(ctx context.Context) []procexec.ProcexecEvent {
 func main() {
 	cmd := BuildProcExecCommand()
 	if err := cmd.Execute(); err != nil {
-		log.Println(err)
+		slog.Default().Error(err.Error())
 	}
 }

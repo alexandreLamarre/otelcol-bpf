@@ -25,7 +25,7 @@ func (ms *MetricConfig) Unmarshal(parser *confmap.Conf) error {
 	return nil
 }
 
-// MetricsConfig provides config for bpftcp metrics.
+// MetricsConfig provides config for tcpscraper metrics.
 type MetricsConfig struct {
 	BpfTCPRx MetricConfig `mapstructure:"bpf.tcp.rx"`
 	BpfTCPTx MetricConfig `mapstructure:"bpf.tcp.tx"`
@@ -42,7 +42,7 @@ func DefaultMetricsConfig() MetricsConfig {
 	}
 }
 
-// MetricsBuilderConfig is a configuration for bpftcp metrics builder.
+// MetricsBuilderConfig is a configuration for tcpscraper metrics builder.
 type MetricsBuilderConfig struct {
 	Metrics MetricsConfig `mapstructure:"metrics"`
 }

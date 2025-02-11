@@ -6,10 +6,12 @@ go 1.23.0
 
 require (
 	github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.119.0
-	github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.119.0
+	github.com/alexandreLamarre/otelcol-bpf/receiver/bpftcp v0.119.0
 	github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.119.0
+	github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusremotewriteexporter v0.119.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension v0.119.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension v0.119.0
+	github.com/open-telemetry/opentelemetry-collector-contrib/processor/deltatocumulativeprocessor v0.119.0
 	go.opentelemetry.io/collector/component v0.119.0
 	go.opentelemetry.io/collector/confmap v1.25.0
 	go.opentelemetry.io/collector/confmap/provider/envprovider v1.25.0
@@ -31,34 +33,25 @@ require (
 )
 
 require (
-	github.com/alexandreLamarre/otelcol-bpf v0.119.0 // indirect
-	github.com/avvmoto/buf-readerat v0.0.0-20171115124131-a17c8cb89270 // indirect
+	github.com/alexandreLamarre/otelcol-bpf/bpf v0.0.0-00010101000000-000000000000 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/cilium/ebpf v0.11.0 // indirect
+	github.com/cilium/ebpf v0.17.2 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/ebitengine/purego v0.8.1 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
-	github.com/go-kit/kit v0.12.0 // indirect
-	github.com/go-kit/log v0.2.1 // indirect
-	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/google/pprof v0.0.0-20240227163752-401108e1b7e7 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/grafana/pyroscope/api v0.4.0 // indirect
-	github.com/grafana/pyroscope/ebpf v0.4.7 // indirect
-	github.com/grafana/regexp v0.0.0-20221123153739-15dc172cd2db // indirect
+	github.com/grafana/regexp v0.0.0-20240518133315-a468a5bfb3bc // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.25.1 // indirect
 	github.com/hashicorp/go-version v1.7.0 // indirect
-	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
-	github.com/ianlancetaylor/demangle v0.0.0-20230524184225-eabc099b10ab // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
@@ -73,24 +66,34 @@ require (
 	github.com/mostynb/go-grpc-compression v1.2.3 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/internal/common v0.119.0 // indirect
+	github.com/open-telemetry/opentelemetry-collector-contrib/internal/exp/metrics v0.119.0 // indirect
+	github.com/open-telemetry/opentelemetry-collector-contrib/pkg/pdatautil v0.119.0 // indirect
+	github.com/open-telemetry/opentelemetry-collector-contrib/pkg/resourcetotelemetry v0.119.0 // indirect
 	github.com/open-telemetry/opentelemetry-collector-contrib/pkg/status v0.119.0 // indirect
+	github.com/open-telemetry/opentelemetry-collector-contrib/pkg/translator/prometheus v0.119.0 // indirect
+	github.com/open-telemetry/opentelemetry-collector-contrib/pkg/translator/prometheusremotewrite v0.119.0 // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/prometheus/client_golang v1.20.5 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.62.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
-	github.com/prometheus/prometheus v0.51.2 // indirect
+	github.com/prometheus/prometheus v0.54.1 // indirect
 	github.com/rs/cors v1.11.1 // indirect
 	github.com/samber/lo v1.39.0 // indirect
+	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/shirou/gopsutil/v4 v4.24.12 // indirect
 	github.com/spf13/cobra v1.8.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
-	github.com/tklauser/go-sysconf v0.3.12 // indirect
-	github.com/tklauser/numcpus v0.6.1 // indirect
+	github.com/tidwall/gjson v1.10.2 // indirect
+	github.com/tidwall/match v1.1.1 // indirect
+	github.com/tidwall/pretty v1.2.0 // indirect
+	github.com/tidwall/tinylru v1.1.0 // indirect
+	github.com/tidwall/wal v1.1.8 // indirect
+	github.com/tklauser/go-sysconf v0.3.14 // indirect
+	github.com/tklauser/numcpus v0.8.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/collector v0.119.0 // indirect
@@ -131,6 +134,8 @@ require (
 	go.opentelemetry.io/collector/processor/xprocessor v0.119.0 // indirect
 	go.opentelemetry.io/collector/receiver/receivertest v0.119.0 // indirect
 	go.opentelemetry.io/collector/receiver/xreceiver v0.119.0 // indirect
+	go.opentelemetry.io/collector/scraper v0.119.0 // indirect
+	go.opentelemetry.io/collector/scraper/scraperhelper v0.119.0 // indirect
 	go.opentelemetry.io/collector/semconv v0.119.0 // indirect
 	go.opentelemetry.io/collector/service v0.119.0 // indirect
 	go.opentelemetry.io/contrib/bridges/otelzap v0.9.0 // indirect
@@ -170,10 +175,12 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.119.0 => ../../receiver/bpfstack
-
 replace github.com/alexandreLamarre/otelcol-bpf v0.119.0 => ../../
 
 replace github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.119.0 => ../../receiver/pprofreceiver
 
 replace github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.119.0 => ../../extension/bpflogger
+
+replace github.com/alexandreLamarre/otelcol-bpf/bpf => ../../bpf/
+
+replace github.com/alexandreLamarre/otelcol-bpf/receiver/bpftcp v0.119.0 => ../../receiver/bpftcp

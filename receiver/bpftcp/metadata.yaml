@@ -1,0 +1,7 @@
+type: bpftcp
+
+status:
+  class : receiver
+  stability:
+    alpha: [metrics]
+  distributions: [bpf]

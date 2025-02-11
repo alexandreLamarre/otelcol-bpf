@@ -1,5 +1,5 @@
 receivers:
-  bpfstack:
+  # bpfstack:
   # pprofreceiver:
   #   endpoints:
   #     - id : example-server
@@ -14,6 +14,7 @@ receivers:
   #         heap:
   #         threadcreate:
   #         allocs:
+  bpftcp:
 processors:
   batch:
 exporters:
@@ -25,6 +26,15 @@ exporters:
   otlphttp/debug:
     endpoint : http://127.0.0.1:4318
     compression: none
+  prometheusremotewrite:
+    endpoint: "http://localhost:9090/api/v1/write"
+    resource_to_telemetry_conversion:
+      enabled: true # Convert resource attributes to metric labels
+  # otlphttp/prometheus:
+  #   endpoint : http://localhost:9090/api/v1/otlp
+  #   compression : none
+  #   tls:
+  #     insecure: true
   debug:
     verbosity: detailed
     sampling_initial: 5
@@ -41,14 +51,18 @@ extensions:
 service:
   extensions: [healthcheckv2, pprof, bpf_logger]
   pipelines:
+    metrics:
+      receivers: [bpftcp]
+      processors: [batch]
+      exporters: [prometheusremotewrite]
     # traces:
     #   receivers: [bpfstack]
     #   processors: [batch]
     #   exporters: [otlp/debug]
-    logs:
-      receivers: [bpfstack]
-      processors: [batch]
-      exporters: [otlp/pprofserver]
+    # logs:
+    #   receivers: [bpfstack]
+    #   processors: [batch]
+    #   exporters: [otlp/pprofserver]
     # metrics:
     #   receivers: [bpfstack]
     #   processors: [batch]

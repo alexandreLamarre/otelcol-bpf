@@ -1,0 +1,32 @@
+receivers:
+  bpftcp:
+    collection_interval: 10s
+    scrapers:
+      tcpscraper:
+processors:
+  batch:
+
+
+exporters:
+  prometheusremotewrite:
+    endpoint: "http://localhost:9090/api/v1/write"
+    resource_to_telemetry_conversion:
+      enabled: true # Convert resource attributes to metric labels
+  debug:
+    verbosity: detailed
+    sampling_initial: 5
+    sampling_thereafter: 200
+extensions:
+  pprof:
+  healthcheckv2:
+  bpf_logger:
+service:
+  telemetry:
+    logs:
+      level : DEBUG
+  extensions: [healthcheckv2, pprof, bpf_logger]
+  pipelines:
+    metrics:
+      receivers: [bpftcp]
+      processors: [batch]
+      exporters: [prometheusremotewrite]

@@ -23,7 +23,6 @@ func (b *bpfLogger) Read() {
 		if err := b.pipe.Close(); err != nil {
 			b.logger.Error(fmt.Sprintf("failed to close bpf trace pipe : %s", err))
 		}
-		b.closed <- struct{}{}
 	}()
 	reader := bufio.NewReader(b.pipe)
 	b.logger.Info("Starting read from BPF pipe...")
@@ -49,7 +48,7 @@ func (b *bpfLogger) Read() {
 
 func (b *bpfLogger) Stop() {
 	b.stopC <- struct{}{}
-	<-b.closed
+	close(b.stopC)
 }
 
 func newBpfLogger(path string, logger *zap.Logger) (*bpfLogger, error) {

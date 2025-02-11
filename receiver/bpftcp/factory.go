@@ -82,22 +82,3 @@ func getFactory(key component.Type, factories map[component.Type]scraper.Factory
 
 	return factory, nil
 }
-
-// func createAddScraperOptions(
-// 	_ context.Context,
-// 	cfg *Config,
-// 	factories map[component.Type]scraper.Factory,
-// ) ([]scraperhelper.ControllerOption, error) {
-// 	scraperControllerOptions := make([]scraperhelper.ControllerOption, 0, len(cfg.Scrapers))
-
-// 	for key, cfg := range cfg.Scrapers {
-// 		factory, err := getFactory(key, factories)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		factory = internal.NewEnvVarFactory(factory, envMap)
-// 		scraperControllerOptions = append(scraperControllerOptions, scraperhelper.AddFactoryWithConfig(factory, cfg))
-// 	}
-
-// 	return scraperControllerOptions, nil
-// }

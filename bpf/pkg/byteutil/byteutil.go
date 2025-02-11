@@ -2,12 +2,28 @@ package byteutil
 
 import (
 	"bytes"
+	"encoding/binary"
 	"errors"
+	"net"
 )
 
 var (
 	ErrNoNullTerminator = errors.New("null terminator not found before array end")
 )
+
+func Ipv4Str(ip uint32) string {
+	bytes := make([]byte, 4)
+	binary.NativeEndian.PutUint32(bytes, ip)
+	return net.IP(bytes).String()
+}
+
+func Ipv6Str(ipv6 [16]uint8) string {
+	return net.IP(ipv6[:]).String()
+}
+
+func EmptyIpv6(ipv6 string) bool {
+	return ipv6 == "::"
+}
 
 // excludes null terminators from output string
 func CCharSliceToStr(arr []int8) string {

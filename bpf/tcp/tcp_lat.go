@@ -52,7 +52,7 @@ func readTcpconnEvent(buf *bytes.Buffer, event *tcpconnlatEvent) error {
 type TcpconnLatEvent tcpconnlatEvent
 type TcpConnLatCallback func(event TcpconnLatEvent)
 
-type tcpConnLatCollector struct {
+type TcpConnLatCollector struct {
 	logger *slog.Logger
 	stopC  chan struct{}
 	objs   tcpconnlatObjects
@@ -63,8 +63,8 @@ type tcpConnLatCollector struct {
 func NewTcpConnLatCollector(
 	logger *slog.Logger,
 	cb TcpConnLatCallback,
-) *tcpConnLatCollector {
-	return &tcpConnLatCollector{
+) *TcpConnLatCollector {
+	return &TcpConnLatCollector{
 		logger: logger,
 		cb:     cb,
 		stopC:  make(chan struct{}),
@@ -72,7 +72,7 @@ func NewTcpConnLatCollector(
 	}
 }
 
-func (c *tcpConnLatCollector) Init() error {
+func (c *TcpConnLatCollector) Init() error {
 	c.logger.Info("requesting memlock removal")
 	if err := bpfutil.RemoveMemlock(); err != nil {
 		return err
@@ -84,7 +84,7 @@ func (c *tcpConnLatCollector) Init() error {
 	return nil
 }
 
-func (c *tcpConnLatCollector) Start() error {
+func (c *TcpConnLatCollector) Start() error {
 	c.logger.Info("attach tcpv4 connect")
 	connectV4, err := link.AttachTracing(link.TracingOptions{
 		Program: c.objs.FentryTcpV4Connect,
@@ -157,7 +157,7 @@ func (c *tcpConnLatCollector) Start() error {
 	return nil
 }
 
-func (c *tcpConnLatCollector) Shutdown() error {
+func (c *TcpConnLatCollector) Shutdown() error {
 	c.logger.Info("shutting down...")
 	if err := c.rd.Close(); err != nil {
 		c.logger.With("err", err).Error("closing perf event reader: %s")

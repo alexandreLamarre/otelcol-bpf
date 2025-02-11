@@ -8,7 +8,7 @@ import (
 	"github.com/cilium/ebpf/link"
 )
 
-type tcpStatsCollector struct {
+type TcpStatsCollector struct {
 	logger          *slog.Logger
 	stopC           chan struct{}
 	collectInterval time.Duration
@@ -25,8 +25,8 @@ func NewTcpStatsCollector(
 	logger *slog.Logger,
 	collectInterval time.Duration,
 	cb TcpStatsCallback,
-) *tcpStatsCollector {
-	return &tcpStatsCollector{
+) *TcpStatsCollector {
+	return &TcpStatsCollector{
 		logger:          logger,
 		stopC:           make(chan struct{}),
 		objs:            tcpconnlatObjects{},
@@ -35,7 +35,7 @@ func NewTcpStatsCollector(
 	}
 }
 
-func (c *tcpStatsCollector) Init() error {
+func (c *TcpStatsCollector) Init() error {
 	c.logger.Info("requesting memlock removal")
 	if err := bpfutil.RemoveMemlock(); err != nil {
 		return err
@@ -47,7 +47,7 @@ func (c *tcpStatsCollector) Init() error {
 	return nil
 }
 
-func (c *tcpStatsCollector) Start() error {
+func (c *TcpStatsCollector) Start() error {
 	c.logger.Info("attaching fentry tcp_sendmsg")
 	tcpSendMsg, err := link.AttachTracing(link.TracingOptions{
 		Program: c.objs.FentryTcpSendmsg,
@@ -67,7 +67,6 @@ func (c *tcpStatsCollector) Start() error {
 	go func() {
 		defer tcpSendMsg.Close()
 		defer tcpCleanupRbuf.Close()
-		defer close(c.stopC)
 		ticker := time.NewTicker(c.collectInterval)
 		defer ticker.Stop()
 		for {
@@ -94,8 +93,8 @@ func (c *tcpStatsCollector) Start() error {
 	return nil
 }
 
-func (c *tcpStatsCollector) Shutdown() error {
+func (c *TcpStatsCollector) Shutdown() error {
 	c.logger.Info("shutting down...")
-	c.stopC <- struct{}{}
+	close(c.stopC)
 	return nil
 }

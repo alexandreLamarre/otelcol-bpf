@@ -1,0 +1,50 @@
+type: bpftcp
+
+status:
+  class : receiver
+  stability:
+    alpha: [metrics]
+  distributions: [bpf]
+
+attributes:
+  pid:
+    description : "The process ID of the process orchestrating the tcp events"
+    type : int
+  comm:
+    description : "The name of the process orchestrating the tcp events"
+    type : string
+  saddr:
+    description : "The source address of the tcp event"
+    type : string
+  daddr:
+    description : "The destination address of the tcp event"
+    type : string
+
+metrics:
+  # bpf.tcp.conn.lat:
+  #   description: "TCP connection latency"
+  #   enabled : true
+  #   attributes : [pid, comm, saddr, daddr]
+  #   unit : ns
+  #   histogram:
+  #     value_type : int
+  #     buckets: [0.1, 0.5, 1, 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1000000000, 5000000000, 10000000000]
+  bpf.tcp.rx:
+    description : "TCP received bytes"
+    enabled : true
+    attributes : [pid, comm, saddr, daddr]
+    unit : bytes
+    sum:
+      value_type : int
+      aggregation_temporality: cumulative
+      monotonic : false
+  bpf.tcp.tx:
+    description : "TCP transmitted bytes"
+    enabled : true
+    attributes : [pid, comm, saddr, daddr]
+    unit : bytes
+    sum:
+      value_type : int
+      aggregation_temporality: cumulative
+      monotonic : false
+    

@@ -17,11 +17,6 @@ require (
 	go.uber.org/goleak v1.3.0
 )
 
-replace (
-	go.opentelemetry.io/collector/component v0.120.0 => go.opentelemetry.io/collector/component v0.119.0
-
-)
-
 replace github.com/alexandreLamarre/otelcol-bpf/bpf => ../../bpf
 
 require (
@@ -42,7 +37,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
-	go.opentelemetry.io/collector/config/configtelemetry v0.119.0 // indirect
 	go.opentelemetry.io/collector/consumer/consumererror v0.120.0 // indirect
 	go.opentelemetry.io/collector/consumer/xconsumer v0.120.0 // indirect
 	go.opentelemetry.io/collector/pdata v1.26.0 // indirect

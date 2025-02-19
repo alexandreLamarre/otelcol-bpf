@@ -27,7 +27,7 @@ func NewTcpMetrics(ctx context.Context, meter metric.Meter) (*TCPMetrics, error)
 		"bpf.tcp.connlatency",
 		metric.WithDescription("Histogram of TCP connection latency"),
 		metric.WithUnit("ns"),
-		metric.WithExplicitBucketBoundaries(0, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000),
+		metric.WithExplicitBucketBoundaries(0, 100, 250, 500, 750, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000, 20000000, 50000000, 100000000, 200000000, 500000000, 1000000000),
 	)
 	errs = errors.Join(errs, err)
 	t.BpfTCPRx, err = meter.Int64Gauge(

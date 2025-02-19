@@ -129,11 +129,11 @@ func (c *TcpConnLatCollector) Start() error {
 		defer rcvState.Close()
 		defer destroySock.Close()
 
-		c.logger.Info("goroutine")
+		c.logger.Info("Starting perf event reader...")
 		for {
-			c.logger.Info("waiting for events")
+			c.logger.Debug("waiting for events")
 			record, err := rd.Read()
-			c.logger.Info("got events")
+			c.logger.Debug("got events")
 			if errors.Is(err, perf.ErrClosed) {
 				c.logger.Info("perf reader closed")
 				return
@@ -159,6 +159,10 @@ func (c *TcpConnLatCollector) Start() error {
 
 func (c *TcpConnLatCollector) Shutdown() error {
 	c.logger.Info("shutting down...")
+	// FIXME: hack
+	if c.rd == nil {
+		return nil
+	}
 	if err := c.rd.Close(); err != nil {
 		c.logger.With("err", err).Error("closing perf event reader: %s")
 	}

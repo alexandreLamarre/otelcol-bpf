@@ -7,27 +7,28 @@ dist:
   output_path: ./
 
 receivers:
-  # - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.119.0
-  - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.119.0
-  - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/bpftcp v0.119.0
+  # - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.120.0
+  - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.120.0
+  - gomod: github.com/alexandreLamarre/otelcol-bpf/receiver/bpftcp v0.120.0
+  - gomod: go.opentelemetry.io/collector/receiver/otlpreceiver v0.120.0
 processors:
-  - gomod: go.opentelemetry.io/collector/processor/batchprocessor v0.119.0
-  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/deltatocumulativeprocessor v0.119.0
+  - gomod: go.opentelemetry.io/collector/processor/batchprocessor v0.120.0
+  # - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/processor/deltatocumulativeprocessor v0.120.0
 extensions:
-  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension v0.119.0 
-  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension v0.119.0
-  - gomod : github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.119.0
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/extension/healthcheckv2extension v0.120.0 
+  - gomod: github.com/open-telemetry/opentelemetry-collector-contrib/extension/pprofextension v0.120.0
+  - gomod : github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.120.0
 exporters:
-  - gomod: go.opentelemetry.io/collector/exporter/otlpexporter v0.119.0
-  - gomod: go.opentelemetry.io/collector/exporter/otlphttpexporter v0.119.0
-  - gomod: go.opentelemetry.io/collector/exporter/debugexporter v0.119.0
-  - gomod : github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusremotewriteexporter  v0.119.0
+  - gomod: go.opentelemetry.io/collector/exporter/otlpexporter v0.120.0
+  - gomod: go.opentelemetry.io/collector/exporter/otlphttpexporter v0.120.0
+  - gomod: go.opentelemetry.io/collector/exporter/debugexporter v0.120.0
+  - gomod : github.com/open-telemetry/opentelemetry-collector-contrib/exporter/prometheusremotewriteexporter  v0.120.0
 
 
 replaces:
-  # - github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.119.0 => ../../receiver/bpfstack
-  - github.com/alexandreLamarre/otelcol-bpf v0.119.0 => ../../
-  - github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.119.0 => ../../receiver/pprofreceiver
-  - github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.119.0 => ../../extension/bpflogger
+  # - github.com/alexandreLamarre/otelcol-bpf/receiver/bpfstack v0.120.0 => ../../receiver/bpfstack
+  - github.com/alexandreLamarre/otelcol-bpf v0.120.0 => ../../
+  - github.com/alexandreLamarre/otelcol-bpf/receiver/pprofreceiver v0.120.0 => ../../receiver/pprofreceiver
+  - github.com/alexandreLamarre/otelcol-bpf/extension/bpflogger v0.120.0 => ../../extension/bpflogger
   - github.com/alexandreLamarre/otelcol-bpf/bpf => ../../bpf/
-  - github.com/alexandreLamarre/otelcol-bpf/receiver/bpftcp v0.119.0 => ../../receiver/bpftcp
+  - github.com/alexandreLamarre/otelcol-bpf/receiver/bpftcp v0.120.0 => ../../receiver/bpftcp

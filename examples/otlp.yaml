@@ -1,5 +1,8 @@
 receivers:
-  bpftcp:
+  otlp:
+    protocols:
+      grpc:
+      http:
 processors:
   batch:
 exporters:
@@ -21,6 +24,6 @@ service:
   extensions: [healthcheckv2, pprof]
   pipelines:
     metrics:
-      receivers: [bpftcp]
+      receivers: [otlp]
       processors: [batch]
       exporters: [prometheusremotewrite]

@@ -1,0 +1,33 @@
+metrics:
+  bpf.tcp.connlatency:
+    short : TCP connection latency
+    unit : ms
+    histogram:
+      value_type: float64
+      buckets : [0, 100, 250, 500, 750, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000, 20000000, 50000000, 100000000, 200000000, 500000000, 1000000000]
+    attributes:
+      - pid.tgid
+      - pid.comm
+      - net.saddr
+      - net.daddr
+      - net.af
+  bpf.tcp.rx:
+    short : TCP received bytes
+    unit : By
+    counter:
+      value_type: int64
+    attributes:
+      - pid.id
+      - pid.comm
+      - net.saddr
+      - net.daddr
+  bpf.tcp.tx:
+    short : TCP transmitted bytes
+    unit : By
+    counter:
+      value_type: int64
+    attributes:
+      - pid.id
+      - pid.comm
+      - net.saddr
+      - net.daddr

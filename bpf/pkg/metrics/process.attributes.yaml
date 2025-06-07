@@ -1,0 +1,10 @@
+attributes:
+  pid.comm:
+    type: string
+    description: Name of the process.
+  pid.id:
+    type: int64
+    description: Process ID.
+  pid.tgid:
+    type: int64
+    description: Thread group ID of the process.

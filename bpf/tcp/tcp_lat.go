@@ -2,12 +2,17 @@ package tcp
 
 import (
 	"bytes"
+	"context"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"log/slog"
 	"os"
 
 	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/bpfutil"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/byteutil"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/metrics"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/options"
 	"github.com/cilium/ebpf/link"
 	"github.com/cilium/ebpf/perf"
 )
@@ -53,22 +58,27 @@ type TcpconnLatEvent tcpconnlatEvent
 type TcpConnLatCallback func(event TcpconnLatEvent)
 
 type TcpConnLatCollector struct {
-	logger *slog.Logger
-	stopC  chan struct{}
-	objs   tcpconnlatObjects
-	cb     TcpConnLatCallback
-	rd     *perf.Reader
+	logger  *slog.Logger
+	stopC   chan struct{}
+	objs    tcpconnlatObjects
+	metrics metrics.Metrics
+	rd      *perf.Reader
+
+	opts *options.CollectorOptions[TcpconnLatEvent]
 }
 
 func NewTcpConnLatCollector(
 	logger *slog.Logger,
-	cb TcpConnLatCallback,
+	metrics metrics.Metrics,
+	opts ...options.CollectorOption[TcpconnLatEvent],
 ) *TcpConnLatCollector {
+	option := options.NewCollectorOptions(opts...)
 	return &TcpConnLatCollector{
-		logger: logger,
-		cb:     cb,
-		stopC:  make(chan struct{}),
-		objs:   tcpconnlatObjects{},
+		logger:  logger,
+		metrics: metrics,
+		stopC:   make(chan struct{}),
+		objs:    tcpconnlatObjects{},
+		opts:    option,
 	}
 }
 
@@ -151,10 +161,29 @@ func (c *TcpConnLatCollector) Start() error {
 				c.logger.With("err", err).Error("failed to read tcpconn event")
 				continue
 			}
-			c.cb(TcpconnLatEvent(*tcpE))
+			c.record(TcpconnLatEvent(*tcpE))
+			if c.opts.EventCallback != nil {
+				c.opts.EventCallback(TcpconnLatEvent(*tcpE))
+			}
 		}
 	}()
 	return nil
+}
+
+func (c *TcpConnLatCollector) record(event TcpconnLatEvent) {
+	name := byteutil.CCharSliceToStr(event.Comm[:])
+	isIpv4 := byteutil.EmptyIpv6(byteutil.Ipv6Str(event.SaddrV6))
+	var saddr, daddr string
+	if isIpv4 {
+		saddr = byteutil.Ipv4Str(event.SaddrV4)
+		daddr = byteutil.Ipv4Str(event.DaddrV4)
+	} else {
+		saddr = byteutil.Ipv6Str(event.SaddrV6)
+		daddr = byteutil.Ipv6Str(event.DaddrV6)
+	}
+	saddr += fmt.Sprintf(":%d", event.Lport)
+	daddr += fmt.Sprintf(":%d", event.Dport)
+	c.metrics.MetricBpfTcpConnlatency.Record(context.TODO(), float64(event.DeltaUs)*1000, int64(event.Tgid), name, saddr, daddr, int(event.Af))
 }
 
 func (c *TcpConnLatCollector) Shutdown() error {

@@ -1,10 +1,15 @@
 package tcp
 
 import (
+	"context"
+	"fmt"
 	"log/slog"
 	"time"
 
 	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/bpfutil"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/byteutil"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/metrics"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/options"
 	"github.com/cilium/ebpf/link"
 )
 
@@ -13,25 +18,35 @@ type TcpStatsCollector struct {
 	stopC           chan struct{}
 	collectInterval time.Duration
 	objs            tcpconnlatObjects
-	cb              TcpStatsCallback
+	metrics         metrics.Metrics
+
+	opts *options.CollectorOptions[TcpconnlatTrafficPair]
 }
 
 type TcpconnlatTrafficKey tcpconnlatTrafficKey
 type TcpconnlatTrafficValue tcpconnlatTrafficValue
+
+type TcpconnlatTrafficPair struct {
+	Key TcpconnlatTrafficKey
+	Val TcpconnlatTrafficValue
+}
 
 type TcpStatsCallback func(key TcpconnlatTrafficKey, val TcpconnlatTrafficValue)
 
 func NewTcpStatsCollector(
 	logger *slog.Logger,
 	collectInterval time.Duration,
-	cb TcpStatsCallback,
+	metrics metrics.Metrics,
+	opts ...options.CollectorOption[TcpconnlatTrafficPair],
 ) *TcpStatsCollector {
+	option := options.NewCollectorOptions(opts...)
 	return &TcpStatsCollector{
 		logger:          logger,
 		stopC:           make(chan struct{}),
 		objs:            tcpconnlatObjects{},
 		collectInterval: collectInterval,
-		cb:              cb,
+		metrics:         metrics,
+		opts:            option,
 	}
 }
 
@@ -82,7 +97,13 @@ func (c *TcpStatsCollector) Start() error {
 						c.logger.With("err", iter.Err()).Error("failed to iterate over traffic map")
 						continue
 					}
-					c.cb(TcpconnlatTrafficKey(key), TcpconnlatTrafficValue(val))
+					c.record(TcpconnlatTrafficKey(key), TcpconnlatTrafficValue(val))
+					if c.opts.EventCallback != nil {
+						c.opts.EventCallback(TcpconnlatTrafficPair{
+							Key: TcpconnlatTrafficKey(key),
+							Val: TcpconnlatTrafficValue(val),
+						})
+					}
 				}
 			case <-c.stopC:
 				c.logger.Info("exiting from tcp stats collector")
@@ -91,6 +112,30 @@ func (c *TcpStatsCollector) Start() error {
 		}
 	}()
 	return nil
+}
+
+func (c *TcpStatsCollector) record(key TcpconnlatTrafficKey, val TcpconnlatTrafficValue) {
+	isIpv4 := byteutil.EmptyIpv6(byteutil.Ipv6Str(key.SaddrV6))
+	name := byteutil.CCharSliceToStr(key.Name[:])
+	var saddr, daddr string
+	if isIpv4 {
+		saddr = byteutil.Ipv4Str(key.SaddrV4)
+		daddr = byteutil.Ipv4Str(key.DaddrV4)
+	} else {
+		saddr = byteutil.Ipv6Str(key.SaddrV6)
+		daddr = byteutil.Ipv6Str(key.DaddrV6)
+	}
+	saddr += fmt.Sprintf(":%d", key.Lport)
+	daddr += fmt.Sprintf(":%d", key.Dport)
+
+	if rx := val.Rx; rx > 0 {
+		c.metrics.MetricBpfTcpRx.Record(context.TODO(), int64(val.Rx), int64(key.Pid), name, saddr, daddr)
+
+	}
+	if tx := val.Tx; tx > 0 {
+		c.metrics.MetricBpfTcpTx.Record(context.TODO(), int64(val.Tx), int64(key.Pid), name, saddr, daddr)
+	}
+
 }
 
 func (c *TcpStatsCollector) Shutdown() error {

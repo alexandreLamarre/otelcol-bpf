@@ -1,0 +1,11 @@
+attributes:
+  net.saddr:
+    type: string
+    description: Source address of the network packet.
+  net.daddr:
+    type: string
+    description: Destination address of the network packet.
+  net.af:
+    # TODO : can probably turn this into an enum
+    type: int
+    description: Address family of the network packet.

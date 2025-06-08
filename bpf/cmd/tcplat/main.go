@@ -10,17 +10,15 @@ import (
 	"time"
 
 	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/byteutil"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/metrics"
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/options"
 	"github.com/alexandreLamarre/otelcol-bpf/bpf/tcp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
 	"go.opentelemetry.io/otel/sdk/metric"
 )
 
-var (
-	metrics *tcp.TCPMetrics
-)
-
-func pprint(event tcp.TcpconnLatEvent) {
+func pprint(event tcp.TcpconnLatEvent) error {
 	slog.Default().Debug(
 		fmt.Sprintf(
 			"%s : %s -> %s : %d us | %s -> %s",
@@ -32,7 +30,7 @@ func pprint(event tcp.TcpconnLatEvent) {
 			byteutil.Ipv6Str(event.DaddrV6),
 		),
 	)
-	metrics.ConnLatCallback(event)
+	return nil
 }
 
 func main() {
@@ -50,13 +48,12 @@ func main() {
 
 	otel.SetMeterProvider(mp)
 
-	metricss, err := tcp.NewTcpMetrics(context.Background(), otel.Meter("tcpConnLat"))
+	m, err := metrics.NewMetrics(otel.Meter("example.com/tcp"))
 	if err != nil {
 		panic(err)
 	}
-	metrics = metricss
 
-	coll := tcp.NewTcpConnLatCollector(logger.With("name", "tcp_lat_collector"), pprint)
+	coll := tcp.NewTcpConnLatCollector(logger.With("name", "tcp_lat_collector"), m, options.WithEventCallback(pprint))
 	if err := coll.Init(); err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)

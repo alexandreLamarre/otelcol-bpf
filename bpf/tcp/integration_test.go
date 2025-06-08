@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/alexandreLamarre/otelcol-bpf/bpf/pkg/metrics"
 	"github.com/alexandreLamarre/otelcol-bpf/bpf/tcp"
 	"github.com/stretchr/testify/assert"
 	"go.opentelemetry.io/otel"
@@ -23,12 +24,12 @@ func TestTcpConnStats(t *testing.T) {
 	defer meterProvider.Shutdown(context.Background())
 	otel.SetMeterProvider(meterProvider)
 	meter := otel.Meter("example.com/tcp")
+	m, err := metrics.NewMetrics(meter)
 
-	metrics, err := tcp.NewTcpMetrics(context.Background(), meter)
 	assert.NoError(t, err)
-	assert.NotNil(t, metrics)
+	assert.NotNil(t, m)
 
-	coll := tcp.NewTcpStatsCollector(slog.Default(), 1*time.Second, metrics.ConnStatsCallback)
+	coll := tcp.NewTcpStatsCollector(slog.Default(), 1*time.Second, m)
 
 	err = coll.Init()
 	assert.NoError(t, err)
@@ -54,11 +55,11 @@ func TestTcpConnLat(t *testing.T) {
 	otel.SetMeterProvider(meterProvider)
 	meter := otel.Meter("example.com/tcp")
 
-	metrics, err := tcp.NewTcpMetrics(context.Background(), meter)
+	m, err := metrics.NewMetrics(meter)
 	assert.NoError(t, err)
-	assert.NotNil(t, metrics)
+	assert.NotNil(t, m)
 
-	coll := tcp.NewTcpConnLatCollector(slog.Default(), metrics.ConnLatCallback)
+	coll := tcp.NewTcpConnLatCollector(slog.Default(), m)
 
 	err = coll.Init()
 	assert.NoError(t, err)

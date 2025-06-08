@@ -18,7 +18,7 @@ TCP connection latency
 
 | Name | Prometheus label | Description | Type | Required |
 |------| ---------------- |-------------|------| ------- |
-| net.af | net_af | Address family of the network packet. | string | ✅ |
+| net.af | net_af | Address family of the network packet. | int | ✅ |
 | net.daddr | net_daddr | Destination address of the network packet. | string | ✅ |
 | net.saddr | net_saddr | Source address of the network packet. | string | ✅ |
 | pid.comm | pid_comm | Name of the process. | string | ✅ |

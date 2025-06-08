@@ -71,7 +71,7 @@ func (m *MetricBpfTcpConnlatency) Record(
 	pidComm string,
 	netSaddr string,
 	netDaddr string,
-	netAf string,
+	netAf int,
 	attributeOpts ...AttributeBpfTcpConnlatencyOption,
 ) {
 	options := &AttributeBpfTcpConnlatencyOptions{}
@@ -82,7 +82,7 @@ func (m *MetricBpfTcpConnlatency) Record(
 		otelattribute.String("pid.comm", pidComm),
 		otelattribute.String("net.saddr", netSaddr),
 		otelattribute.String("net.daddr", netDaddr),
-		otelattribute.String("net.af", netAf),
+		otelattribute.Int("net.af", netAf),
 	}
 
 	attrs := otelattribute.NewSet(
